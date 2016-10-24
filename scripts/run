@@ -1,0 +1,5 @@
+#!/bin/sh
+mvn package
+if [ $? -eq 0 ] 
+  then mvn exec:java -D exec.mainClass=com.wizeline.chess.App
+fi
