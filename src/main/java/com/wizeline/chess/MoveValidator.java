@@ -237,6 +237,7 @@ public class MoveValidator {
      */
     private int getPieceOnCell(int x, int y) {
         String position = NotationConverter.convertMatrixToChess(new int[]{x, y});
+
         if(!pieces.containsKey(position))
             return 0;
 
@@ -263,10 +264,11 @@ public class MoveValidator {
         else if(strtX + dirX[1] == endX && strtY + dirY[1] == endY)
             return (PawnsFirstMove(strtX, color) && targetColor == 0);
 
-
-        for(int i = 2; i < 4; ++i)
-            if(strtX + dirX[i] == endX && strtY + dirY[i] == endY)
-                return (targetColor != 0 && targetColor != color);
+        else {
+            for(int i = 2; i < 4; ++i)
+                if(strtX + dirX[i] == endX && strtY + dirY[i] == endY)
+                    return (targetColor != 0 && targetColor != color);
+        }
 
         return false;
     }

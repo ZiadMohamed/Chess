@@ -42,7 +42,6 @@ public class MoveSimulator {
         String kingPosition = getKingPosition(pieces, kingColor);
 
         for(HashMap.Entry<String, String> piece : pieces.entrySet()) {
-            System.out.println(piece.getKey()+" "+piece.getValue());
             if(piece.getValue().charAt(0) != kingColor) {
 
                 String move = piece.getKey() + " " + kingPosition;
