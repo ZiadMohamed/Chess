@@ -41,17 +41,89 @@ public class App
     {
         Scanner sc = new Scanner(System.in);
 
-        HashMap<String, String> pieces = new HashMap<String, String>();
+        HashMap<String, String> pieces = initializeBoard();
 
-        pieces.put("a2", "wP");
-        pieces.put("b2", "wP");
-        pieces.put("c2", "bP");
-        pieces.put("d2", "bP");
+
         Board board = new Board();
-        board.draw(pieces);
-        System.out.println("Next movement: ");
-        String movement = sc.nextLine();
-        pieces.put("a5", "bK");
-        board.draw(pieces);
+
+
+        for(int turn = 0;; ++turn) {
+
+            board.draw(pieces);
+
+            char color = 'w';
+            if(turn % 2 == 0)
+                System.out.println("White to move");
+            else {
+                System.out.println("Black to move");
+                color = 'b';
+            }
+
+            String movement = sc.nextLine();
+
+            if(!new MoveValidator(movement, pieces).validMove(color)) {
+                System.out.println("Invalid Move");
+                --turn;
+                continue;
+            }
+
+
+            pieces = MoveSimulator.simulateMove(pieces, movement.substring(0, 2), movement.substring(3, 5));
+
+            if(color == 'w')
+                color = 'b';
+            else
+                color = 'w';
+
+            if(MoveSimulator.checkMate(pieces, color)) {
+                board.draw(pieces);
+                if(turn % 2 == 0)
+                    System.out.print("WHITE ");
+                else
+                    System.out.print("BLACK ");
+
+                System.out.println("WINS");
+
+                return;
+            }
+        }
+    }
+
+
+    private static HashMap<String, String> initializeBoard() {
+        HashMap<String, String> pieces = new HashMap<String, String>();
+        for(char c = 'a'; c <= 'h'; ++c) {
+            String str1 = "", str2 = "";
+            str1 += c;
+            str1 += '2';
+            pieces.put(str1, "wP");
+
+            str2 += c;
+            str2 += '7';
+            pieces.put(str2, "bP");
+
+        }
+
+
+        pieces.put("a1", "wR");
+        pieces.put("b1", "wN");
+        pieces.put("c1", "wB");
+        pieces.put("d1", "wQ");
+        pieces.put("e1", "wK");
+        pieces.put("f1", "wB");
+        pieces.put("g1", "wN");
+        pieces.put("h1", "wR");
+
+
+        pieces.put("a8", "bR");
+        pieces.put("b8", "bN");
+        pieces.put("c8", "bB");
+        pieces.put("d8", "bQ");
+        pieces.put("e8", "bK");
+        pieces.put("f8", "bB");
+        pieces.put("g8", "bN");
+        pieces.put("h8", "bR");
+
+        return pieces;
     }
 }

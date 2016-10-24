@@ -1,7 +1,6 @@
 package com.wizeline.chess;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Home on 10/24/16.
@@ -10,7 +9,7 @@ public class MoveValidator {
 
     static final int ROWS = 8;
     static final int COLS = 8;
-    private Map<String, String> pieces;
+    private HashMap<String, String> pieces;
     private String move;
 
     public MoveValidator() {
@@ -18,14 +17,14 @@ public class MoveValidator {
         move = "";
     }
 
-    public MoveValidator(String move, Map<String, String> pieces) {
+    public MoveValidator(String move, HashMap<String, String> pieces) {
         this.move = move;
         this.pieces = pieces;
     }
 
 
 
-    public boolean validMove() {
+    public boolean validMove(char myColor) {
         if(!validMoveCommand())
             return false;
 
@@ -46,6 +45,10 @@ public class MoveValidator {
 
         char pieceType = pieceToMove.charAt(1);
         char pieceColor = pieceToMove.charAt(0);
+        if(pieceColor != myColor)
+            return false;
+
+        boolean kingChecked = MoveSimulator.isKingChecked(pieces, pieceColor);
 
 
         boolean validMovement = false;
@@ -68,7 +71,16 @@ public class MoveValidator {
             validMovement = validPawnMove(strt[0], strt[1], target[0], target[1], pieceColor);
         }
 
-        return validMovement;
+        if(!validMovement)
+            return false;
+
+
+        HashMap<String, String> newPieces = MoveSimulator.simulateMove(pieces, cell1, cell2);
+
+        if(kingChecked)
+            return !MoveSimulator.isKingChecked(newPieces, pieceColor);
+
+        return true;
     }
 
     public boolean validMoveCommand() {
