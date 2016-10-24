@@ -42,6 +42,7 @@ public class App
         Scanner sc = new Scanner(System.in);
 
         HashMap<String, String> pieces = new HashMap<String, String>();
+
         pieces.put("a2", "wP");
         pieces.put("b2", "wP");
         pieces.put("c2", "bP");

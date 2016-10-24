@@ -9,8 +9,8 @@ public class NotationConverter {
     static final int COLS = 8;
 
     public static int[] convertChessToMatrix(String position) {
-        int row = ROWS - Integer.parseInt(position.substring(1));
-        int col = Integer.parseInt(position.substring(0, 1)) - 97;
+        int row = ROWS - (position.charAt(1) - '0');
+        int col = position.charAt(0) - 'a';
 
         return new int[]{row, col};
     }
