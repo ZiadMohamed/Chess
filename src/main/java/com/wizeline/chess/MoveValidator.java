@@ -24,7 +24,7 @@ public class MoveValidator {
 
 
 
-    public boolean validMove(char myColor) {
+    public boolean validMove(char myColor, boolean normalMove) {
         if(!validMoveCommand())
             return false;
 
@@ -48,7 +48,10 @@ public class MoveValidator {
         if(pieceColor != myColor)
             return false;
 
-        boolean kingChecked = MoveSimulator.isKingChecked(pieces, pieceColor);
+        boolean kingChecked = false;
+
+        if(normalMove)
+            kingChecked = MoveSimulator.isKingChecked(pieces, pieceColor);
 
 
         boolean validMovement = false;

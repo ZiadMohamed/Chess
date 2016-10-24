@@ -12,12 +12,16 @@ public class MoveSimulator {
 
     public static HashMap<String, String> simulateMove(HashMap<String, String> pieces, String startCell, String endCell) {
 
+        HashMap<String,String> newPieces = new HashMap<String, String>(pieces);
+
+
         String piece = pieces.get(startCell);
-        pieces.remove(startCell);
 
-        pieces.put(endCell, piece);
+        newPieces.remove(startCell);
 
-        return pieces;
+        newPieces.put(endCell, piece);
+
+        return newPieces;
     }
 
     private static String getKingPosition(HashMap<String, String> pieces, char kingColor) {
@@ -38,11 +42,12 @@ public class MoveSimulator {
         String kingPosition = getKingPosition(pieces, kingColor);
 
         for(HashMap.Entry<String, String> piece : pieces.entrySet()) {
+            System.out.println(piece.getKey()+" "+piece.getValue());
             if(piece.getValue().charAt(0) != kingColor) {
 
                 String move = piece.getKey() + " " + kingPosition;
 
-                if(new MoveValidator(move, pieces).validMove(piece.getValue().charAt(0)))
+                if(new MoveValidator(move, pieces).validMove(piece.getValue().charAt(0), false))
                     return true;
             }
         }
@@ -57,7 +62,7 @@ public class MoveSimulator {
 
                 String move = piece.getKey() + " " + position;
 
-                if(new MoveValidator(move, pieces).validMove(kingColor))
+                if(new MoveValidator(move, pieces).validMove(kingColor, true))
                     return true;
             }
         }

@@ -61,14 +61,17 @@ public class App
 
             String movement = sc.nextLine();
 
-            if(!new MoveValidator(movement, pieces).validMove(color)) {
+            if(!new MoveValidator(movement, pieces).validMove(color, true)) {
                 System.out.println("Invalid Move");
                 --turn;
                 continue;
             }
 
 
-            pieces = MoveSimulator.simulateMove(pieces, movement.substring(0, 2), movement.substring(3, 5));
+            HashMap<String, String> newPieces = MoveSimulator.simulateMove(pieces, movement.substring(0, 2), movement.substring(3, 5));
+
+            pieces.clear();
+            pieces = new HashMap<String, String>(newPieces);
 
             if(color == 'w')
                 color = 'b';
